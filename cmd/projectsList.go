@@ -6,9 +6,9 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"text/tabwriter"
 
 	"github.com/fatih/color"
+	"github.com/juju/ansiterm"
 	"github.com/spf13/cobra"
 )
 
@@ -23,16 +23,15 @@ var projectsListCmd = &cobra.Command{
 
 		fmt.Print("Your projects\n\n")
 
-		writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', 0)
-		header := color.New(color.Faint).FprintfFunc()
-		header(writer, "  name\tid\n")
+		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 1, '\t', 0)
+		gray := color.New(color.Faint).SprintfFunc()
+		fmt.Fprintf(writer, "  %s\t%s\n", gray("name"), gray("id"))
 		for _, p := range projects {
-			selected := " "
+			name := "  " + p.Name
 			if p.Id == currentProject.Id {
-				selected = "✔"
+				name = "✔ " + p.Name
 			}
-			row := color.New(color.FgWhite).FprintfFunc()
-			row(writer, "%s %s\t%s\n", selected, p.Name, p.Id)
+			fmt.Fprintf(writer, "%-*.*s\t%s\n", 12, 24, name, p.Id)
 		}
 		writer.Flush()
 		fmt.Println()

@@ -4,6 +4,7 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"bytes"
 	"log"
 	"os"
 	"strings"
@@ -35,6 +36,20 @@ func getProjects() []Project {
 		log.Fatal(err)
 	}
 	return projects
+}
+
+func addProject(p Project) {
+	projects := getProjects()
+	projects = append(projects, p)
+	var buf bytes.Buffer
+	err := jsonlines.Encode(&buf, &projects)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = os.WriteFile(dbProjects, buf.Bytes(), 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func getCurrentProject() Project {
