@@ -17,11 +17,10 @@ var projectsListCmd = &cobra.Command{
 		projects := getProjects()
 		currentProject := getCurrentProject()
 
-		fmt.Print("Your projects\n\n")
-
 		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 1, '\t', 0)
-		gray := color.New(color.Faint).SprintfFunc()
-		fmt.Fprintf(writer, "  %s\t%s\n", gray("name"), gray("id"))
+		faint := color.New(color.Faint).SprintfFunc()
+		fmt.Println()
+		fmt.Fprintf(writer, "  %s\t%s\n", faint("name"), faint("id"))
 		for _, p := range projects {
 			name := "  " + p.Name
 			if p.Id == currentProject.Id {

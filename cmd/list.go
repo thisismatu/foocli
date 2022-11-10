@@ -18,7 +18,13 @@ var listCmd = &cobra.Command{
 		currentProject := getCurrentProject()
 		apps := getApplications()
 
-		fmt.Printf("Applications in %s\n\n", currentProject.Name)
+		cyan := color.New(color.FgCyan).SprintFunc()
+		if len(apps) == 0 {
+			fmt.Printf("No applications in %s\n", cyan(currentProject.Name))
+			fmt.Printf("To create an application run %s\n", cyan("foo create [name]"))
+			os.Exit(0)
+		}
+		fmt.Printf("Applications in %s\n\n", cyan(currentProject.Name))
 
 		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 1, '\t', 0)
 		faint := color.New(color.Faint).SprintfFunc()
