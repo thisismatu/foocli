@@ -6,9 +6,12 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/chzyer/readline"
 	"github.com/fatih/color"
+	"github.com/juju/ansiterm"
+	"github.com/kaduartur/go-cli-spinner/pkg/spinner"
 	"github.com/wlredeye/jsonlines"
 	"golang.org/x/exp/slices"
 )
@@ -85,6 +88,17 @@ func getApplications() []Application {
 		log.Fatal(err)
 	}
 	return apps
+}
+
+func loading(s string, t time.Duration) {
+	writer := ansiterm.NewWriter(os.Stdout)
+	writer.SetStyle(ansiterm.Style(2))
+	sp := spinner.New(s)
+	sp.Output = writer
+	sp.Start()
+	time.Sleep(time.Second * t)
+	sp.Stop()
+	writer.Reset()
 }
 
 // Disable terminal bell https://github.com/manifoldco/promptui/issues/49#issuecomment-1012640880

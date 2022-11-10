@@ -10,6 +10,8 @@ var projectsSwitchCmd = &cobra.Command{
 	Aliases: []string{"use"},
 	Short:   "Switch to a different project",
 	Run: func(cmd *cobra.Command, args []string) {
+		loading("Fetching projects", 1)
+
 		projects := getProjects()
 		projects = append(projects, Project{Name: "Cancel"})
 

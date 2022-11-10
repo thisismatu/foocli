@@ -15,6 +15,8 @@ var listCmd = &cobra.Command{
 	Aliases: []string{"ls"},
 	Short:   "List applications in the current project",
 	Run: func(cmd *cobra.Command, args []string) {
+		loading("Fetching applications", 1)
+
 		currentProject := getCurrentProject()
 		apps := getApplications()
 
@@ -27,8 +29,9 @@ var listCmd = &cobra.Command{
 		fmt.Printf("Applications in %s\n\n", cyan(currentProject.Name))
 
 		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 1, '\t', 0)
-		faint := color.New(color.Faint).SprintfFunc()
-		fmt.Fprintf(writer, "  %s\t%s\t%s\t%s\n", faint("name"), faint("id"), faint("status"), faint("deployed"))
+		writer.SetStyle(ansiterm.Style(2))
+		fmt.Fprintf(writer, "  %s\t%s\t%s\t%s\n", "name", "id", "status", "deployed")
+		writer.Reset()
 		for _, a := range apps {
 			date := ""
 			if a.Deployed != "" {

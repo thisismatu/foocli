@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fatih/color"
 	"github.com/juju/ansiterm"
 	"github.com/spf13/cobra"
 )
@@ -14,13 +13,16 @@ var projectsListCmd = &cobra.Command{
 	Aliases: []string{"ls"},
 	Short:   "Show all projects you're part of",
 	Run: func(cmd *cobra.Command, args []string) {
-		projects := getProjects()
+		loading("Fetching projects", 1)
+
 		currentProject := getCurrentProject()
+		projects := getProjects()
 
 		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 1, '\t', 0)
-		faint := color.New(color.Faint).SprintfFunc()
+		writer.SetStyle(ansiterm.Style(2))
 		fmt.Println()
-		fmt.Fprintf(writer, "  %s\t%s\n", faint("name"), faint("id"))
+		fmt.Fprintf(writer, "  %s\t%s\n", "name", "id")
+		writer.Reset()
 		for _, p := range projects {
 			name := "  " + p.Name
 			if p.Id == currentProject.Id {
