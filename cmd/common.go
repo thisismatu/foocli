@@ -1,14 +1,13 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
 	"bytes"
+	"fmt"
 	"log"
 	"os"
 	"strings"
 
+	"github.com/fatih/color"
 	"github.com/wlredeye/jsonlines"
 	"golang.org/x/exp/slices"
 )
@@ -55,7 +54,9 @@ func addProject(p Project) {
 func getCurrentProject() Project {
 	data, err := os.ReadFile(cfgFile)
 	if err != nil {
-		log.Fatal(err)
+		cyan := color.New(color.FgCyan).SprintFunc()
+		fmt.Printf("Log in by running %s\n", cyan("foo login"))
+		os.Exit(0)
 	}
 	projects := getProjects()
 	idx := slices.IndexFunc(projects, func(p Project) bool { return p.Id == string(data) })
