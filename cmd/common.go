@@ -24,6 +24,7 @@ type Project struct {
 type Application struct {
 	Name     string
 	Id       string
+	Language string
 	Status   string
 	Deployed string
 }
