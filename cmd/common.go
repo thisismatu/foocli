@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/chzyer/readline"
 	"github.com/fatih/color"
 	"github.com/wlredeye/jsonlines"
 	"golang.org/x/exp/slices"
@@ -23,6 +24,8 @@ type Application struct {
 	Status   string
 	Deployed string
 }
+
+type NoBellStdout struct{}
 
 func getProjects() []Project {
 	buf, err := os.ReadFile(dbProjects)
@@ -81,4 +84,19 @@ func getApplications() []Application {
 		log.Fatal(err)
 	}
 	return apps
+}
+
+// Disable terminal bell https://github.com/manifoldco/promptui/issues/49#issuecomment-1012640880
+
+var noBellStdout = &NoBellStdout{}
+
+func (n *NoBellStdout) Write(p []byte) (int, error) {
+	if len(p) == 1 && p[0] == readline.CharBell {
+		return 0, nil
+	}
+	return readline.Stdout.Write(p)
+}
+
+func (n *NoBellStdout) Close() error {
+	return readline.Stdout.Close()
 }

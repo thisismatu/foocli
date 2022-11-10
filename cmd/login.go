@@ -33,6 +33,7 @@ var loginCmd = &cobra.Command{
 			Label:     "Log in to Foo",
 			Items:     providers,
 			Templates: templates,
+			Stdout:    noBellStdout,
 		}
 
 		i, _, err := prompt.Run()

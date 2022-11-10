@@ -23,6 +23,7 @@ var projectsSwitchCmd = &cobra.Command{
 			Label:     "Switch project",
 			Items:     projects,
 			Templates: templates,
+			Stdout:    noBellStdout,
 		}
 
 		i, _, err := prompt.Run()
