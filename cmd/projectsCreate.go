@@ -42,7 +42,9 @@ var projectsCreateCmd = &cobra.Command{
 		}
 
 		id := uuid.New()
-		addProject(Project{Name: result, Id: id.String()})
+		newProject := Project{Name: result, Id: id.String()}
+		addProject(newProject)
+		setCurrentProject(newProject.Id)
 
 		cyan := color.New(color.FgCyan).SprintFunc()
 		green := color.New(color.FgGreen).SprintFunc()
