@@ -60,9 +60,8 @@ func addProject(p Project) {
 func getCurrentProject() Project {
 	data, err := os.ReadFile(cfgFile)
 	if err != nil || len(data) == 0 {
-		cyan := color.New(color.FgCyan).SprintFunc()
-		fmt.Println("You are not logged in!")
-		fmt.Printf("To log in run %s\n", cyan("foo login"))
+		fmt.Println("You are not logged in")
+		fmt.Printf("To log in run %s\n", color.CyanString("foo login"))
 		os.Exit(0)
 	}
 	projects := getProjects()

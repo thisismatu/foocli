@@ -46,9 +46,8 @@ var projectsCreateCmd = &cobra.Command{
 		addProject(newProject)
 		setCurrentProject(newProject.Id)
 
-		cyan := color.New(color.FgCyan).SprintFunc()
-		green := color.New(color.FgGreen).SprintFunc()
-		fmt.Printf("%s Project %s created and set to current project\n", green("✔"), cyan(result))
+		name := color.CyanString(result)
+		fmt.Printf("Project %s created and set to current project\n", name)
 	},
 }
 

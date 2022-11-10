@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/fatih/color"
+	"github.com/google/uuid"
 	"github.com/manifoldco/promptui"
 	"github.com/pkg/browser"
 	"github.com/spf13/cobra"
@@ -44,11 +45,10 @@ var loginCmd = &cobra.Command{
 
 		if providers[i].Url != "" {
 			browser.OpenURL(providers[i].Url)
-			fmt.Printf("Visit the following URL if your browser doesn't automatically open: %s\n", providers[i].Url)
+			fmt.Printf("Visit the following URL if your browser doesn't automatically open: %s?%s\n", providers[i].Url, uuid.New())
 			msg := fmt.Sprintf("Waiting for %s authentication to be completed", providers[i].Name)
 			loading(msg, 5)
-			success := color.CyanString("Success!")
-			fmt.Printf("%s You are now logged in.\n", success)
+			fmt.Printf("%s You are now logged in\n", color.CyanString("Success!"))
 		}
 	},
 }

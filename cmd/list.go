@@ -20,13 +20,12 @@ var listCmd = &cobra.Command{
 		currentProject := getCurrentProject()
 		apps := getApplications()
 
-		cyan := color.New(color.FgCyan).SprintFunc()
 		if len(apps) == 0 {
-			fmt.Printf("No applications in %s\n", cyan(currentProject.Name))
-			fmt.Printf("To create an application run %s\n", cyan("foo create [name]"))
+			fmt.Printf("No applications in %s\n", color.CyanString(currentProject.Name))
+			fmt.Printf("To create an application run %s\n", color.CyanString("`foo create [name]`"))
 			os.Exit(0)
 		}
-		fmt.Printf("Applications in %s\n\n", cyan(currentProject.Name))
+		fmt.Printf("Applications in %s\n\n", color.CyanString(currentProject.Name))
 
 		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 1, '\t', 0)
 		writer.SetStyle(ansiterm.Style(2))
@@ -47,20 +46,18 @@ var listCmd = &cobra.Command{
 }
 
 func statusColor(status string) color.Attribute {
-	c := color.Faint
-	switch s := status; s {
+	switch status {
 	case "Ready":
-		c = color.FgGreen
+		return color.FgGreen
 	case "Training":
-		c = color.FgYellow
+		return color.FgYellow
 	case "Queued":
-		c = color.FgYellow
+		return color.FgYellow
 	case "Failed":
-		c = color.FgRed
+		return color.FgRed
 	default:
-		c = color.Faint
+		return color.Faint
 	}
-	return c
 }
 
 func init() {
