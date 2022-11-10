@@ -38,7 +38,7 @@ var listCmd = &cobra.Command{
 				date = d.Format("2006-01-02 15:04")
 			}
 			sc := color.New(statusColor(a.Status)).SprintFunc()
-			fmt.Fprintf(writer, "  %-*.*s\t%s\t%s %s\t%s\n", 12, 24, a.Name, a.Id, sc("●"), a.Status, date)
+			fmt.Fprintf(writer, "  %-*.*s\t%s\t%s %s\t%s\n", 8, 32, a.Name, a.Id, sc("●"), a.Status, date)
 		}
 		writer.Flush()
 		fmt.Println()

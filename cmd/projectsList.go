@@ -28,7 +28,7 @@ var projectsListCmd = &cobra.Command{
 			if p.Id == currentProject.Id {
 				name = "✔ " + p.Name
 			}
-			fmt.Fprintf(writer, "%-*.*s\t%s\n", 12, 24, name, p.Id)
+			fmt.Fprintf(writer, "%-*.*s\t%s\n", 8, 32, name, p.Id)
 		}
 		writer.Flush()
 		fmt.Println()
