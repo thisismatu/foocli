@@ -4,11 +4,14 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"log"
 	"os"
 
 	"github.com/spf13/cobra"
 )
+
+var cfgFile = ".cfg/foo"
+var dbProjects = ".cfg/projects.jsonl"
+var dbApplications = ".cfg/applications.jsonl"
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -39,20 +42,4 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-func getCurrentProject() string {
-	data, err := os.ReadFile(".foo")
-	if err != nil {
-		log.Fatalf("error %s", err)
-		return ""
-	}
-	return string(data)
-}
-
-func setCurrentProject(id string) {
-	buf := []byte(id)
-	if err := os.WriteFile(".foo", buf, 0644); err != nil {
-		log.Fatalf("error %s", err)
-	}
 }

@@ -9,16 +9,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type project struct {
-	Name string
-	Id   string
-}
-
-var projects = []project{
-	{Name: "My project", Id: "1a5eedfe-d053-458f-9e2a-02f8878bf220"},
-	{Name: "Acme corp", Id: "a0f4652a-b5ca-4e4b-be14-723b359ace72"},
-}
-
 // projectsCmd represents the projects command
 var projectsCmd = &cobra.Command{
 	Use:   "projects",

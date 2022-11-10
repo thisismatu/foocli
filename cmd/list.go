@@ -13,27 +13,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type app struct {
-	Name     string
-	Id       string
-	Status   string
-	Deployed string
-}
-
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:     "list",
 	Aliases: []string{"ls"},
 	Short:   "List applications in the current project",
 	Run: func(cmd *cobra.Command, args []string) {
-		apps := []app{
-			{Name: "Prod app", Id: "523f7849-d68d-46bc-8b6b-9522afa04557", Status: "Ready", Deployed: "2022-11-09 12:31:21.235527 +0000 UTC"},
-			{Name: "Dev app", Id: "3e618ca8-be49-43b1-9d00-6083a8e48cf1", Status: "Failed", Deployed: ""},
-			{Name: "Testing", Id: "2f567022-798c-47ea-9047-adf30055d692", Status: "Ready", Deployed: "2022-11-08 11:37:19.093058 +0000 UTC"},
-			{Name: "Foobar", Id: "a77cf94c-586d-4409-a342-e58ed6b163ad", Status: "Ready", Deployed: "2022-11-08 08:26:38.292301 +0000 UTC"},
-		}
+		currentProject := getCurrentProject()
+		apps := getApplications()
 
-		fmt.Print("Applications in My project\n\n")
+		fmt.Printf("Applications in %s\n\n", currentProject.Name)
 
 		writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', 0)
 		header := color.New(color.Faint).FprintfFunc()

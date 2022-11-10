@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type provider struct {
+type Provider struct {
 	Name string
 	Url  string
 }
@@ -21,7 +21,7 @@ var loginCmd = &cobra.Command{
 	Use:   "login",
 	Short: "Log into the Foo platfrom",
 	Run: func(cmd *cobra.Command, args []string) {
-		providers := []provider{
+		providers := []Provider{
 			{Name: "Google", Url: "https://google.com"},
 			{Name: "GitHub", Url: "https://github.com"},
 			{Name: "Cancel"},
