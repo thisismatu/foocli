@@ -22,11 +22,12 @@ type Project struct {
 }
 
 type Application struct {
-	Name     string
-	Id       string
-	Language string
-	Status   string
-	Deployed string
+	Name      string
+	Id        string
+	ProjectId string
+	Language  string
+	Status    string
+	Deployed  string
 }
 
 type NoBellStdout struct{}
@@ -65,8 +66,9 @@ func getCurrentProject() Project {
 		fmt.Printf("To log in run %s\n", color.CyanString("foo login"))
 		os.Exit(0)
 	}
+	currProjectId := string(data)
 	projects := getProjects()
-	idx := slices.IndexFunc(projects, func(p Project) bool { return p.Id == string(data) })
+	idx := slices.IndexFunc(projects, func(p Project) bool { return p.Id == currProjectId })
 	return projects[idx]
 }
 
@@ -77,7 +79,7 @@ func setCurrentProject(id string) {
 	}
 }
 
-func getApplications() []Application {
+func getApplications(pid string) []Application {
 	buf, err := os.ReadFile(dbApplications)
 	if err != nil {
 		log.Fatal(err)
@@ -87,7 +89,13 @@ func getApplications() []Application {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return apps
+	filteredApps := []Application{}
+	for i := range apps {
+		if apps[i].ProjectId == pid {
+			filteredApps = append(filteredApps, apps[i])
+		}
+	}
+	return filteredApps
 }
 
 func loading(s string, t time.Duration) {

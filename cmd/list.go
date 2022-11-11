@@ -18,7 +18,7 @@ var listCmd = &cobra.Command{
 		loading("Fetching applications", 1)
 
 		currentProject := getCurrentProject()
-		apps := getApplications()
+		apps := getApplications(currentProject.Id)
 
 		if len(apps) == 0 {
 			fmt.Printf("No applications in %s\n", color.CyanString(currentProject.Name))
@@ -29,7 +29,7 @@ var listCmd = &cobra.Command{
 
 		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 1, '\t', 0)
 		writer.SetStyle(ansiterm.Style(2))
-		fmt.Fprintf(writer, "  %s\t%s\t%s\t%s\t%s\n", "name", "id", "language", "status", "deployed")
+		fmt.Fprintf(writer, "  %s\t%s\t%s\t%s\n", "name", "id", "status", "deployed")
 		writer.Reset()
 		for _, a := range apps {
 			date := ""
@@ -38,7 +38,7 @@ var listCmd = &cobra.Command{
 				date = d.Format("2006-01-02 15:04")
 			}
 			sc := color.New(statusColor(a.Status)).SprintFunc()
-			fmt.Fprintf(writer, "  %-*.*s\t%s\t%s\t%s %s\t%s\n", 8, 32, a.Name, a.Id, a.Language, sc("●"), a.Status, date)
+			fmt.Fprintf(writer, "  %-*.*s\t%s\t%s %s\t%s\n", 8, 32, a.Name, a.Id, sc("●"), a.Status, date)
 		}
 		writer.Flush()
 		fmt.Println()
