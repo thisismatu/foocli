@@ -22,14 +22,14 @@ var listCmd = &cobra.Command{
 
 		if len(apps) == 0 {
 			fmt.Printf("No applications in %s\n", color.CyanString(currentProject.Name))
-			fmt.Printf("To create an application run %s\n", color.CyanString("`foo create [name]`"))
+			fmt.Printf("To create an application run %s\n", color.CyanString("`foo create <name>`"))
 			os.Exit(0)
 		}
 		fmt.Printf("Applications in %s\n\n", color.CyanString(currentProject.Name))
 
-		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 1, '\t', 0)
+		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
 		writer.SetStyle(ansiterm.Style(2))
-		fmt.Fprintf(writer, "  %s\t%s\t%s\t%s\n", "name", "id", "status", "deployed")
+		fmt.Fprintf(writer, "  %s\t%s\t%s\t%s\n", "Name", "Application ID", "Status", "Deployed")
 		writer.Reset()
 		for _, a := range apps {
 			date := ""

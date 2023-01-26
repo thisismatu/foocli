@@ -18,10 +18,10 @@ var projectsListCmd = &cobra.Command{
 		currentProject := getCurrentProject()
 		projects := getProjects()
 
-		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 1, '\t', 0)
+		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
 		writer.SetStyle(ansiterm.Style(2))
 		fmt.Println()
-		fmt.Fprintf(writer, "  %s\t%s\n", "name", "id")
+		fmt.Fprintf(writer, "  %s\t%s\n", "Name", "Project ID")
 		writer.Reset()
 		for _, p := range projects {
 			name := "  " + p.Name
