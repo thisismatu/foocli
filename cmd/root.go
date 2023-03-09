@@ -32,4 +32,7 @@ func Execute() {
 }
 
 func init() {
+	rootCmd.AddCommand(projectsCmd)
+	rootCmd.AddCommand(listCmd)
+	rootCmd.AddCommand(loginCmd)
 }

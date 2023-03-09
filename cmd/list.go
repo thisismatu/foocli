@@ -60,6 +60,4 @@ func statusColor(status string) color.Attribute {
 	}
 }
 
-func init() {
-	rootCmd.AddCommand(listCmd)
-}
+func init() {}
