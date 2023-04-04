@@ -72,7 +72,7 @@ func getCurrentProject() Project {
 	data, err := os.ReadFile(cfgFile)
 	if err != nil || len(data) == 0 {
 		fmt.Println("You are not logged in")
-		fmt.Printf("To log in run %s\n", color.CyanString("foo login"))
+		fmt.Printf("To log in run %s\n", color.CyanString("`foo login`"))
 		os.Exit(0)
 	}
 	currProjectId := string(data)

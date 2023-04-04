@@ -33,7 +33,7 @@ var modelsListCmd = &cobra.Command{
 			models := getModels(currentProject.Id)
 
 			fmt.Printf("Models in %s\n", color.CyanString(currentProject.Name))
-			fmt.Printf("To list deployments for a model, run %s\n\n", color.CyanString("foo models list <model_id>"))
+			fmt.Printf("To list deployments for a model, run %s\n\n", color.CyanString("`foo models list <model_id>`"))
 
 			writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
 			writer.SetStyle(ansiterm.Style(2))

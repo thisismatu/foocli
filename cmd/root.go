@@ -19,7 +19,7 @@ func showInfo() string {
 	nextVersion := "v0.0.2"
 	nameAndVersion := fmt.Sprintf("\n%s %s %s", icon, name, currVersion)
 	if currVersion != nextVersion {
-		update := fmt.Sprintf("> Update available: run %s to install %s %s\n", color.CyanString("brew uprade foo"), name, nextVersion)
+		update := fmt.Sprintf("> Update available: run %s to install %s %s\n", color.CyanString("`brew uprade foo`"), name, nextVersion)
 		return update + nameAndVersion
 	}
 	return nameAndVersion
