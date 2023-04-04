@@ -28,7 +28,7 @@ var loginCmd = &cobra.Command{
 		templates := &promptui.SelectTemplates{
 			Active:   "{{ `▸` | cyan }} {{ .Name | cyan }}",
 			Inactive: "  {{ .Name }}",
-			Selected: "Log in to Foo using {{ .Name | cyan }}",
+			Selected: "{{ if .Url }}Logging in using {{ .Name | cyan }}{{ else }}No changes made{{ end }}",
 		}
 
 		prompt := promptui.Select{

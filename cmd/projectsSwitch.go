@@ -12,13 +12,19 @@ var projectsSwitchCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		loading("Fetching projects", 1)
 
+		currentProject := getCurrentProject()
 		projects := getProjects()
+		for i, p := range projects {
+			if p.Id == currentProject.Id {
+				projects[i].Name = p.Name + " (current)"
+			}
+		}
 		projects = append(projects, Project{Name: "Cancel"})
 
 		templates := &promptui.SelectTemplates{
 			Active:   "{{ `▸` | cyan }} {{ .Name | cyan }}",
 			Inactive: "  {{ .Name }}",
-			Selected: "Switched to project {{ .Name | cyan }}",
+			Selected: "{{ if .Id }}Switched to project {{ .Name | cyan }}{{ else }}No changes made{{ end }}",
 		}
 
 		prompt := promptui.Select{
