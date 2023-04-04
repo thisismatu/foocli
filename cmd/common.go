@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"log"
 	"math/rand"
 	"os"
 	"strings"
@@ -41,15 +40,20 @@ type Deployment struct {
 
 type NoBellStdout struct{}
 
+func logError(err error) {
+	fmt.Printf("%s %v\n", color.RedString("Error:"), err)
+	os.Exit(0)
+}
+
 func getProjects() []Project {
 	buf, err := os.ReadFile(dbProjects)
 	if err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 	projects := []Project{}
 	err = jsonlines.Decode(strings.NewReader(string(buf)), &projects)
 	if err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 	return projects
 }
@@ -60,11 +64,11 @@ func addProject(p Project) {
 	var buf bytes.Buffer
 	err := jsonlines.Encode(&buf, &projects)
 	if err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 	err = os.WriteFile(dbProjects, buf.Bytes(), 0644)
 	if err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 }
 
@@ -84,19 +88,19 @@ func getCurrentProject() Project {
 func setCurrentProject(id string) {
 	buf := []byte(id)
 	if err := os.WriteFile(cfgFile, buf, 0644); err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 }
 
 func getModel(mid string) (Model, error) {
 	buf, err := os.ReadFile(dbModels)
 	if err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 	models := []Model{}
 	err = jsonlines.Decode(strings.NewReader(string(buf)), &models)
 	if err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 	for i := range models {
 		if models[i].Id == mid {
@@ -110,12 +114,12 @@ func getModel(mid string) (Model, error) {
 func getModels(pid string) []Model {
 	buf, err := os.ReadFile(dbModels)
 	if err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 	models := []Model{}
 	err = jsonlines.Decode(strings.NewReader(string(buf)), &models)
 	if err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 	filteredModels := []Model{}
 	for i := range models {
@@ -129,12 +133,12 @@ func getModels(pid string) []Model {
 func getBaseModels() []Model {
 	buf, err := os.ReadFile(dbModels)
 	if err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 	models := []Model{}
 	err = jsonlines.Decode(strings.NewReader(string(buf)), &models)
 	if err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 	filteredModels := []Model{}
 	for i := range models {
@@ -151,11 +155,11 @@ func addModel(pid string, m Model) {
 	var buf bytes.Buffer
 	err := jsonlines.Encode(&buf, &models)
 	if err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 	err = os.WriteFile(dbModels, buf.Bytes(), 0644)
 	if err != nil {
-		log.Fatal(err)
+		logError(err)
 	}
 }
 

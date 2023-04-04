@@ -14,8 +14,8 @@ import (
 )
 
 var modelsCreateCmd = &cobra.Command{
-	Use:     "create",
-	Aliases: []string{"add"},
+	Use:     "add",
+	Aliases: []string{"create"},
 	Short:   "Create a new adapted model",
 	Run: func(cmd *cobra.Command, args []string) {
 		validate := func(input string) error {
@@ -38,7 +38,7 @@ var modelsCreateCmd = &cobra.Command{
 
 		name, err := promptInput.Run()
 		if err != nil {
-			fmt.Printf("Prompt failed %v\n", err)
+			logError(err)
 			return
 		}
 
@@ -58,7 +58,7 @@ var modelsCreateCmd = &cobra.Command{
 
 		mid, _, err := promptSelect.Run()
 		if err != nil {
-			fmt.Printf("Prompt failed %v\n", err)
+			logError(err)
 			return
 		}
 

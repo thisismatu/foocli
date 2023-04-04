@@ -12,8 +12,8 @@ import (
 )
 
 var projectsCreateCmd = &cobra.Command{
-	Use:     "create",
-	Aliases: []string{"add"},
+	Use:     "add",
+	Aliases: []string{"create"},
 	Short:   "Create a new project",
 	Run: func(cmd *cobra.Command, args []string) {
 		validate := func(input string) error {
