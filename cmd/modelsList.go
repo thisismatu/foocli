@@ -22,6 +22,10 @@ var modelsListCmd = &cobra.Command{
 			log.Fatalf("Missing model ID: %s", err)
 		}
 
+		if mid == "" && len(args) > 0 {
+			mid = args[0]
+		}
+
 		if mid == "" {
 			loading("Fetching models", 1)
 

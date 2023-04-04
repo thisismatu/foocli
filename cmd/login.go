@@ -45,10 +45,12 @@ var loginCmd = &cobra.Command{
 
 		if providers[i].Url != "" {
 			browser.OpenURL(providers[i].Url)
-			fmt.Printf("Visit the following URL if your browser doesn't automatically open: %s?%s\n", providers[i].Url, uuid.New())
+			fmt.Println()
+			color.New(color.Faint).Printf("Visit the following URL if your browser doesn't automatically open: %s?%s\n", providers[i].Url, uuid.New())
+			fmt.Println()
 			msg := fmt.Sprintf("Waiting for %s authentication to be completed", providers[i].Name)
 			loading(msg, 5)
-			fmt.Printf("%s You are now logged in\n", color.CyanString("Success!"))
+			fmt.Println("You are now logged in!")
 		}
 	},
 }
