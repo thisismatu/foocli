@@ -35,4 +35,5 @@ func init() {
 	rootCmd.AddCommand(projectsCmd)
 	rootCmd.AddCommand(listCmd)
 	rootCmd.AddCommand(loginCmd)
+	rootCmd.AddCommand(transcribeCmd)
 }
