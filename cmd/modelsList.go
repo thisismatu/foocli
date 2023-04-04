@@ -50,7 +50,11 @@ var modelsListCmd = &cobra.Command{
 
 			currentProject := getCurrentProject()
 			deployments := getDeployments(mid)
-			model := getModel(mid)
+			model, err := getModel(mid)
+			if err != nil {
+				fmt.Println("No deployments found")
+				os.Exit(0)
+			}
 
 			fmt.Printf("Deployments for %s in %s\n\n", color.CyanString(model.Name), color.CyanString(currentProject.Name))
 

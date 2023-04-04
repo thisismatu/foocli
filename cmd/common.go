@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"log"
 	"math/rand"
@@ -87,7 +88,7 @@ func setCurrentProject(id string) {
 	}
 }
 
-func getModel(mid string) Model {
+func getModel(mid string) (Model, error) {
 	buf, err := os.ReadFile(dbModels)
 	if err != nil {
 		log.Fatal(err)
@@ -99,10 +100,11 @@ func getModel(mid string) Model {
 	}
 	for i := range models {
 		if models[i].Id == mid {
-			return models[i]
+			return models[i], nil
 		}
 	}
-	return models[0]
+	errMsg := fmt.Sprintf("model for id `%s` does not exist", mid)
+	return Model{}, errors.New(errMsg)
 }
 
 func getModels(pid string) []Model {
