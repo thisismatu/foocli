@@ -17,7 +17,7 @@ type Provider struct {
 
 var loginCmd = &cobra.Command{
 	Use:   "login",
-	Short: "Log into the Foo platfrom",
+	Short: "Log into your account or create a new one ",
 	Run: func(cmd *cobra.Command, args []string) {
 		providers := []Provider{
 			{Name: "Google", Url: "https://google.com"},
@@ -28,7 +28,7 @@ var loginCmd = &cobra.Command{
 		templates := &promptui.SelectTemplates{
 			Active:   "{{ `▸` | cyan }} {{ .Name | cyan }}",
 			Inactive: "  {{ .Name }}",
-			Selected: "Log in to Foo {{ .Name | cyan }}",
+			Selected: "Log in to Foo using {{ .Name | cyan }}",
 		}
 
 		prompt := promptui.Select{

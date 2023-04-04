@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"strings"
 	"time"
@@ -21,13 +22,20 @@ type Project struct {
 	Id   string
 }
 
-type Application struct {
-	Name      string
-	Id        string
-	ProjectId string
-	Language  string
-	Status    string
-	Deployed  string
+type Model struct {
+	Name        string
+	Id          string
+	ProjectId   string
+	Language    string
+	Status      string
+	IsAdaptable bool
+}
+
+type Deployment struct {
+	Date     time.Time
+	Url      string
+	Status   string
+	Duration string
 }
 
 type NoBellStdout struct{}
@@ -79,23 +87,84 @@ func setCurrentProject(id string) {
 	}
 }
 
-func getApplications(pid string) []Application {
-	buf, err := os.ReadFile(dbApplications)
+func getModel(mid string) Model {
+	buf, err := os.ReadFile(dbModels)
 	if err != nil {
 		log.Fatal(err)
 	}
-	apps := []Application{}
-	err = jsonlines.Decode(strings.NewReader(string(buf)), &apps)
+	models := []Model{}
+	err = jsonlines.Decode(strings.NewReader(string(buf)), &models)
 	if err != nil {
 		log.Fatal(err)
 	}
-	filteredApps := []Application{}
-	for i := range apps {
-		if apps[i].ProjectId == pid {
-			filteredApps = append(filteredApps, apps[i])
+	for i := range models {
+		if models[i].Id == mid {
+			return models[i]
 		}
 	}
-	return filteredApps
+	return models[0]
+}
+
+func getModels(pid string) []Model {
+	buf, err := os.ReadFile(dbModels)
+	if err != nil {
+		log.Fatal(err)
+	}
+	models := []Model{}
+	err = jsonlines.Decode(strings.NewReader(string(buf)), &models)
+	if err != nil {
+		log.Fatal(err)
+	}
+	filteredModels := []Model{}
+	for i := range models {
+		if models[i].ProjectId == pid || models[i].ProjectId == "all" {
+			filteredModels = append(filteredModels, models[i])
+		}
+	}
+	return filteredModels
+}
+
+func getBaseModels() []Model {
+	buf, err := os.ReadFile(dbModels)
+	if err != nil {
+		log.Fatal(err)
+	}
+	models := []Model{}
+	err = jsonlines.Decode(strings.NewReader(string(buf)), &models)
+	if err != nil {
+		log.Fatal(err)
+	}
+	filteredModels := []Model{}
+	for i := range models {
+		if models[i].ProjectId == "all" && models[i].IsAdaptable {
+			filteredModels = append(filteredModels, models[i])
+		}
+	}
+	return filteredModels
+}
+
+func addModel(pid string, m Model) {
+	models := getModels(pid)
+	models = append(models, m)
+	var buf bytes.Buffer
+	err := jsonlines.Encode(&buf, &models)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = os.WriteFile(dbModels, buf.Bytes(), 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func getDeployments(mid string) []Deployment {
+	deployments := []Deployment{}
+	for x := 0; x < 10; x++ {
+		url := fmt.Sprintf("https://dashboard.foo.com/model/%s/%d", mid, x)
+		duration := fmt.Sprintf("%ds", rand.Intn(1000))
+		deployments = append(deployments, Deployment{Date: time.Now(), Url: url, Status: "Ready", Duration: duration})
+	}
+	return deployments
 }
 
 func loading(s string, t time.Duration) {
@@ -122,4 +191,19 @@ func (n *NoBellStdout) Write(p []byte) (int, error) {
 
 func (n *NoBellStdout) Close() error {
 	return readline.Stdout.Close()
+}
+
+func statusColor(status string) color.Attribute {
+	switch status {
+	case "Ready":
+		return color.FgGreen
+	case "Training":
+		return color.FgYellow
+	case "Queued":
+		return color.FgYellow
+	case "Failed":
+		return color.FgRed
+	default:
+		return color.Faint
+	}
 }

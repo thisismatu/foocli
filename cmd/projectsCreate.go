@@ -15,7 +15,6 @@ var projectsCreateCmd = &cobra.Command{
 	Use:     "create",
 	Aliases: []string{"add"},
 	Short:   "Create a new project",
-
 	Run: func(cmd *cobra.Command, args []string) {
 		validate := func(input string) error {
 			if input == "" {
@@ -46,8 +45,10 @@ var projectsCreateCmd = &cobra.Command{
 		addProject(newProject)
 		setCurrentProject(newProject.Id)
 
-		name := color.CyanString(result)
-		fmt.Printf("Project %s created and set to current project\n", name)
+		faint := color.New(color.Faint).SprintFunc()
+		fmt.Printf("%s %s\n", faint("Project ID:"), id.String())
+		fmt.Println()
+		fmt.Println("Project created, setting it as the current project")
 	},
 }
 

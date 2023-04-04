@@ -10,12 +10,19 @@ import (
 
 var cfgFile = ".cfg/foo"
 var dbProjects = ".cfg/projects.jsonl"
-var dbApplications = ".cfg/applications.jsonl"
+var dbModels = ".cfg/models.jsonl"
 
 func showInfo() string {
-	update := fmt.Sprintf("> Update available: run `%s` to install Foo CLI 0.0.2\n\n", color.CyanString("brew uprade foo"))
-	version := "💎 Foo CLI 0.0.1"
-	return update + version
+	icon := `💬`
+	name := "Foo CLI"
+	currVersion := "v0.0.1"
+	nextVersion := "v0.0.2"
+	nameAndVersion := fmt.Sprintf("\n%s %s %s", icon, name, currVersion)
+	if currVersion != nextVersion {
+		update := fmt.Sprintf("> Update available: run %s to install %s %s\n", color.CyanString("brew uprade foo"), name, nextVersion)
+		return update + nameAndVersion
+	}
+	return nameAndVersion
 }
 
 var rootCmd = &cobra.Command{
@@ -33,7 +40,7 @@ func Execute() {
 
 func init() {
 	rootCmd.AddCommand(projectsCmd)
-	rootCmd.AddCommand(listCmd)
+	rootCmd.AddCommand(modelsCmd)
 	rootCmd.AddCommand(loginCmd)
 	rootCmd.AddCommand(transcribeCmd)
 }
