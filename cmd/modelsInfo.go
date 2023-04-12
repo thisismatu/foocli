@@ -66,6 +66,6 @@ var modelsInfoCmd = &cobra.Command{
 }
 
 func init() {
-	modelsInfoCmd.Flags().StringP("model", "m", "", "Model to inspect")
+	modelsInfoCmd.Flags().StringP("model", "m", "", "Model ID")
 	modelsCmd.AddCommand(modelsInfoCmd)
 }

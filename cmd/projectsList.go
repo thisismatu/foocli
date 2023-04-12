@@ -11,7 +11,7 @@ import (
 var projectsListCmd = &cobra.Command{
 	Use:     "ls",
 	Aliases: []string{"list"},
-	Short:   "Show all projects you're part of",
+	Short:   "Show all your projects",
 	Run: func(cmd *cobra.Command, args []string) {
 		loading("Fetching projects", 1)
 

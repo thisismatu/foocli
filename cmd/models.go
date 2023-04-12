@@ -9,7 +9,9 @@ var modelsCmd = &cobra.Command{
 	Aliases: []string{"model"},
 	Short:   "View and manage models",
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+		if len(args) == 0 {
+			modelsListCmd.Run(cmd, []string{})
+		}
 	},
 }
 

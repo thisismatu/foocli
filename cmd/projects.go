@@ -10,7 +10,7 @@ var projectsCmd = &cobra.Command{
 	Short:   "View and manage projects",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
-			cmd.Help()
+			projectsListCmd.Run(cmd, []string{})
 		}
 	},
 }

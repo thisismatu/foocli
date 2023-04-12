@@ -13,7 +13,6 @@ var modelsListCmd = &cobra.Command{
 	Use:     "ls",
 	Aliases: []string{"list"},
 	Short:   "List available models",
-	Args:    cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
 		loading("Fetching models", 1)
 
@@ -21,7 +20,7 @@ var modelsListCmd = &cobra.Command{
 		models := getModels(currentProject.Id)
 
 		fmt.Printf("Models in %s\n", color.CyanString(currentProject.Name))
-		fmt.Printf("To see information about a model, run %s\n\n", color.CyanString("`foo info <model_id>`"))
+		fmt.Printf("To see information about a model, run %s\n\n", color.CyanString("`foo model info <model_id>`"))
 
 		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
 		writer.SetStyle(ansiterm.Style(2))

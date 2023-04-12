@@ -11,6 +11,7 @@ import (
 
 	"github.com/chzyer/readline"
 	"github.com/fatih/color"
+	"github.com/google/uuid"
 	"github.com/juju/ansiterm"
 	"github.com/kaduartur/go-cli-spinner/pkg/spinner"
 	"github.com/wlredeye/jsonlines"
@@ -166,7 +167,8 @@ func addModel(pid string, m Model) {
 func getDeployments(mid string) []Deployment {
 	deployments := []Deployment{}
 	for x := 0; x < 10; x++ {
-		url := fmt.Sprintf("https://dashboard.foo.com/model/%s/%d", mid, x)
+		hash := uuid.New().String()[0:8]
+		url := fmt.Sprintf("https://dashboard.foo.com/model/%s/%s", mid, hash)
 		duration := fmt.Sprintf("%ds", rand.Intn(1000))
 		deployments = append(deployments, Deployment{Date: time.Now(), Url: url, Status: "Ready", Duration: duration})
 	}
