@@ -16,25 +16,19 @@ var modelsInfoCmd = &cobra.Command{
 	Long:  "Displays information and deployment history related to a model",
 	Args:  cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
-		mid, err := cmd.Flags().GetString("model")
-		if err != nil {
-			logError(err)
-		}
-		if mid == "" && len(args) > 0 {
-			mid = args[0]
-		}
-		if mid == "" && len(args) < 1 {
+		if len(args) == 0 {
 			cmd.Help()
 			os.Exit(0)
 		}
 
-		loading(fmt.Sprintf("Fetching information for %s", mid), 1)
-
-		deployments := getDeployments(mid)
-		model, err := getModel(mid)
+		modelId := args[0]
+		deployments := getDeployments(modelId)
+		model, err := getModel(modelId)
 		if err != nil {
 			logError(err)
 		}
+
+		loading(fmt.Sprintf("Fetching information for %s", modelId), 1)
 
 		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
 		sc := color.New(statusColor(model.Status)).SprintFunc()
@@ -66,6 +60,5 @@ var modelsInfoCmd = &cobra.Command{
 }
 
 func init() {
-	modelsInfoCmd.Flags().StringP("model", "m", "", "Model ID")
 	modelsCmd.AddCommand(modelsInfoCmd)
 }

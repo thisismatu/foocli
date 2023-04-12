@@ -108,7 +108,7 @@ func getModel(mid string) (Model, error) {
 			return models[i], nil
 		}
 	}
-	errMsg := fmt.Sprintf("model for id `%s` does not exist", mid)
+	errMsg := fmt.Sprintf("model '%s' does not exist", mid)
 	return Model{}, errors.New(errMsg)
 }
 
@@ -214,4 +214,13 @@ func statusColor(status string) color.Attribute {
 	default:
 		return color.Faint
 	}
+}
+
+func contains(s []string, str string) bool {
+	for _, v := range s {
+		if v == str {
+			return true
+		}
+	}
+	return false
 }
