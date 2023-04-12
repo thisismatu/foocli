@@ -3,6 +3,7 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"os"
 
 	"github.com/google/uuid"
 
@@ -11,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var projectsCreateCmd = &cobra.Command{
+var projectsAddCmd = &cobra.Command{
 	Use:     "add",
 	Aliases: []string{"create"},
 	Short:   "Create a new project",
@@ -36,8 +37,7 @@ var projectsCreateCmd = &cobra.Command{
 
 		result, err := prompt.Run()
 		if err != nil {
-			fmt.Printf("Prompt failed %v\n", err)
-			return
+			os.Exit(0)
 		}
 
 		id := uuid.New()
@@ -53,5 +53,5 @@ var projectsCreateCmd = &cobra.Command{
 }
 
 func init() {
-	projectsCmd.AddCommand(projectsCreateCmd)
+	projectsCmd.AddCommand(projectsAddCmd)
 }

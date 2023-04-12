@@ -112,7 +112,7 @@ func getModel(mid string) (Model, error) {
 	return Model{}, errors.New(errMsg)
 }
 
-func getModels(pid string) []Model {
+func getModels(pid string, includeBaseModels bool) []Model {
 	buf, err := os.ReadFile(dbModels)
 	if err != nil {
 		logError(err)
@@ -124,7 +124,10 @@ func getModels(pid string) []Model {
 	}
 	filteredModels := []Model{}
 	for i := range models {
-		if models[i].ProjectId == pid || models[i].ProjectId == "all" {
+		if models[i].ProjectId == pid {
+			filteredModels = append(filteredModels, models[i])
+		}
+		if includeBaseModels && models[i].ProjectId == "all" {
 			filteredModels = append(filteredModels, models[i])
 		}
 	}
@@ -151,8 +154,26 @@ func getBaseModels() []Model {
 }
 
 func addModel(pid string, m Model) {
-	models := getModels(pid)
+	models := getModels(pid, true)
 	models = append(models, m)
+	var buf bytes.Buffer
+	err := jsonlines.Encode(&buf, &models)
+	if err != nil {
+		logError(err)
+	}
+	err = os.WriteFile(dbModels, buf.Bytes(), 0644)
+	if err != nil {
+		logError(err)
+	}
+}
+
+func removeModel(pid string, mid string) {
+	models := getModels(pid, true)
+	for i := range models {
+		if models[i].Id == mid {
+			models = append(models[:i], models[i+1:]...)
+		}
+	}
 	var buf bytes.Buffer
 	err := jsonlines.Encode(&buf, &models)
 	if err != nil {

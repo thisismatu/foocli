@@ -6,6 +6,7 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"os"
 
 	"github.com/fatih/color"
 	"github.com/google/uuid"
@@ -13,7 +14,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var modelsCreateCmd = &cobra.Command{
+var modelsAddCmd = &cobra.Command{
 	Use:     "add",
 	Aliases: []string{"create"},
 	Short:   "Create a new adapted model",
@@ -38,8 +39,7 @@ var modelsCreateCmd = &cobra.Command{
 
 		name, err := promptInput.Run()
 		if err != nil {
-			logError(err)
-			return
+			os.Exit(0)
 		}
 
 		selectTemplates := &promptui.SelectTemplates{
@@ -58,8 +58,7 @@ var modelsCreateCmd = &cobra.Command{
 
 		mid, _, err := promptSelect.Run()
 		if err != nil {
-			logError(err)
-			return
+			os.Exit(0)
 		}
 
 		currentProject := getCurrentProject()
@@ -76,5 +75,5 @@ var modelsCreateCmd = &cobra.Command{
 }
 
 func init() {
-	modelsCmd.AddCommand(modelsCreateCmd)
+	modelsCmd.AddCommand(modelsAddCmd)
 }

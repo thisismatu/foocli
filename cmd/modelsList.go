@@ -17,7 +17,7 @@ var modelsListCmd = &cobra.Command{
 		loading("Fetching models", 1)
 
 		currentProject := getCurrentProject()
-		models := getModels(currentProject.Id)
+		models := getModels(currentProject.Id, true)
 
 		fmt.Printf("Models in %s\n", color.CyanString(currentProject.Name))
 		fmt.Printf("To see information about a model, run %s\n\n", color.CyanString("`foo model info <model_id>`"))
