@@ -44,5 +44,4 @@ func init() {
 	rootCmd.AddCommand(modelsCmd)
 	rootCmd.AddCommand(loginCmd)
 	rootCmd.AddCommand(transcribeCmd)
-	rootCmd.AddCommand(infoCmd)
 }
