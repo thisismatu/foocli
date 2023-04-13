@@ -4,21 +4,21 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
 
 var modelRemoveCmd = &cobra.Command{
-	Use:     "rm",
+	Use:     "rm [model]",
 	Aliases: []string{"remove"},
 	Short:   "Delete adapted model",
 	Run: func(cmd *cobra.Command, args []string) {
 		currentProject := getCurrentProject()
 
 		selectTemplates := &promptui.SelectTemplates{
-			Active:   "{{ `▸` | cyan }} {{ .Name | cyan }} {{ .Id | faint }}",
+			Active:   "▸ {{ .Name | underline }} {{ .Id | faint }}",
 			Inactive: "  {{ .Name }} {{ .Id | faint }}",
-			Selected: "{{ `Model:` | faint }} {{ .Name }} {{ .Id }}",
 		}
 
 		models := getModels(currentProject.Id, false)
@@ -28,31 +28,34 @@ var modelRemoveCmd = &cobra.Command{
 		}
 
 		promptSelect := &promptui.Select{
-			Label:     "Select model to delete",
-			Items:     models,
-			Templates: selectTemplates,
-			Stdout:    noBellStdout,
+			Label:        "Select model to delete",
+			Items:        models,
+			Templates:    selectTemplates,
+			Stdout:       noBellStdout,
+			HideSelected: true,
 		}
 
 		mid, _, err := promptSelect.Run()
-
 		if err != nil {
+			fmt.Println("No changes made")
 			os.Exit(0)
 		}
 
 		promptConfirm := promptui.Prompt{
-			Label:     "Delete model",
-			IsConfirm: true,
+			Label:       fmt.Sprintf("Delete model %s (%s)", models[mid].Name, models[mid].Id),
+			IsConfirm:   true,
+			HideEntered: true,
 		}
 
 		_, err = promptConfirm.Run()
 
 		if err != nil {
+			fmt.Println("No changes made")
 			os.Exit(0)
 		}
 
 		removeModel(currentProject.Id, models[mid].Id)
-		fmt.Printf("%s %s was deleted\n", models[mid].Name, models[mid].Id)
+		fmt.Printf("%s Model %s (%s) was deleted\n", color.GreenString("Success!"), models[mid].Name, models[mid].Id)
 	},
 }
 

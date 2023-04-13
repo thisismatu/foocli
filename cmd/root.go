@@ -14,15 +14,14 @@ var dbModels = ".cfg/models.jsonl"
 var currVersion = "0.0.1"
 
 func showInfo() string {
-	icon := `💬`
-	name := "Foo CLI"
+	logo := "ⴲ Foo CLI"
+	logoAndVersion := color.CyanString("\n%s %s", logo, currVersion)
 	nextVersion := "0.0.2"
-	nameAndVersion := fmt.Sprintf("\n%s %s v%s", icon, name, currVersion)
 	if currVersion != nextVersion {
-		update := fmt.Sprintf("> Update available: run %s to install %s v%s\n", color.CyanString("`brew uprade foo`"), name, nextVersion)
-		return update + nameAndVersion
+		update := fmt.Sprintf("%s run %s to install version %s\n", color.MagentaString("Update available:"), color.CyanString("`brew uprade foo`"), nextVersion)
+		return update + logoAndVersion
 	}
-	return nameAndVersion
+	return logoAndVersion
 }
 
 var rootCmd = &cobra.Command{

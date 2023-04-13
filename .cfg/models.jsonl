@@ -1,5 +1,5 @@
-{"Name":"Conformer large high accuracy","Id":"large-highaccuracy-en","ProjectId":"all","Language":"English","Status":"Ready","IsAdaptable":true}
-{"Name":"Conformer large low latency","Id":"large-lowlatency-en","ProjectId":"all","Language":"English","Status":"Ready","IsAdaptable":true}
-{"Name":"Conformer small low latency","Id":"small-lowlatency-en","ProjectId":"all","Language":"English","Status":"Ready","IsAdaptable":true}
-{"Name":"Whisper medium","Id":"whisper-medium-multilingual","ProjectId":"all","Language":"Multilingual","Status":"Ready","IsAdaptable":false}
-{"Name":"My adapted model","Id":"186f0e7e-b281-485b-a974-c6dc08c96b74","ProjectId":"1a5eedfe-d053-458f-9e2a-02f8878bf220","Language":"English","Status":"Ready","IsAdaptable":false}
+{"Name":"Conformer large high accuracy","Id":"large-highaccuracy-en","ProjectId":"all","Language":"English","Status":"Ready","IsAdaptable":true,"BaseModel":""}
+{"Name":"Conformer large low latency","Id":"large-lowlatency-en","ProjectId":"all","Language":"English","Status":"Ready","IsAdaptable":true,"BaseModel":""}
+{"Name":"Conformer small low latency","Id":"small-lowlatency-en","ProjectId":"all","Language":"English","Status":"Ready","IsAdaptable":true,"BaseModel":""}
+{"Name":"Whisper medium","Id":"whisper-medium-multilingual","ProjectId":"all","Language":"Multilingual","Status":"Ready","IsAdaptable":false,"BaseModel":""}
+{"Name":"My adapted model","Id":"186f0e7e-b281-485b-a974-c6dc08c96b74","ProjectId":"1a5eedfe-d053-458f-9e2a-02f8878bf220","Language":"English","Status":"Ready","IsAdaptable":false,"BaseModel":"large-highaccuracy-en"}

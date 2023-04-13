@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/google/uuid"
+	"github.com/juju/ansiterm"
 
 	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
@@ -30,25 +31,31 @@ var projectAddCmd = &cobra.Command{
 		}
 
 		prompt := promptui.Prompt{
-			Label:     "Project name",
-			Templates: templates,
-			Validate:  validate,
+			Label:       "Project name",
+			Templates:   templates,
+			Validate:    validate,
+			HideEntered: true,
 		}
 
-		result, err := prompt.Run()
+		name, err := prompt.Run()
 		if err != nil {
+			fmt.Println("No changes made")
 			os.Exit(0)
 		}
 
 		id := uuid.New()
-		newProject := Project{Name: result, Id: id.String()}
+		newProject := Project{Name: name, Id: id.String()}
 		addProject(newProject)
 		setCurrentProject(newProject.Id)
 
+		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
 		faint := color.New(color.Faint).SprintFunc()
-		fmt.Printf("%s %s\n", faint("Project ID:"), id.String())
 		fmt.Println()
-		fmt.Println("Project created, setting it as the current project")
+		fmt.Fprintf(writer, "  %s\t%s\n", faint("Name"), name)
+		fmt.Fprintf(writer, "  %s\t%s\n", faint("ID"), id.String())
+		writer.Flush()
+		fmt.Println()
+		fmt.Printf("%s Project created and set as the current project\n", color.GreenString("Success!"))
 	},
 }
 

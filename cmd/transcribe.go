@@ -10,20 +10,13 @@ import (
 )
 
 var transcribeCmd = &cobra.Command{
-	Use:   "transcribe",
+	Use:   "transcribe [file] [model]",
 	Short: "Transcribe audio files",
-	Long:  "Transcribe audio files",
-	Example: `  Transcribe a single file
+	Example: `  Transcribe a single file using the default model
+  $ foo transcribe file.wav
 
-  foo transcribe file.wav
-
-  - If no model is provided, the default model is used
-
-  Transcribe multiple files using a specific model
-
-  foo transcribe files.jsonl <model_id>
-
-  - Specify multiple audio files in a JSON Lines document using the format {"audio":"/path/to/file"}`,
+  Transcribe multiple files using a specific model. Define the files in a JSON Lines document using the format {"audio":"/path/to/file"}
+  $ foo transcribe files.jsonl small-lowlatency-en`,
 	Args: cobra.RangeArgs(0, 2),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
@@ -61,4 +54,5 @@ var transcribeCmd = &cobra.Command{
 }
 
 func init() {
+	transcribeCmd.Flags().BoolP("streaming", "s", false, "Use Streaming API instead of Batch API")
 }

@@ -32,45 +32,44 @@ var modelAddCmd = &cobra.Command{
 		}
 
 		promptInput := promptui.Prompt{
-			Label:     "Model name",
-			Templates: promptTemplates,
-			Validate:  validate,
+			Label:       "Model name",
+			Templates:   promptTemplates,
+			Validate:    validate,
+			HideEntered: true,
 		}
 
 		name, err := promptInput.Run()
 		if err != nil {
+			fmt.Println("No changes made")
 			os.Exit(0)
 		}
 
 		selectTemplates := &promptui.SelectTemplates{
-			Active:   "{{ `▸` | cyan }} {{ .Name | cyan }}",
-			Inactive: "  {{ .Name }}",
-			Selected: "{{ `Base model:` | faint }} {{ .Name }}",
+			Active:   "▸ {{ .Name | underline }} {{ .Id | faint }}",
+			Inactive: "  {{ .Name }} {{ .Id | faint }}",
 		}
 
-		models := getBaseModels()
+		baseModels := getBaseModels()
 		promptSelect := &promptui.Select{
-			Label:     "Select base model",
-			Items:     models,
-			Templates: selectTemplates,
-			Stdout:    noBellStdout,
+			Label:        "Select base model",
+			Items:        baseModels,
+			Templates:    selectTemplates,
+			Stdout:       noBellStdout,
+			HideSelected: true,
 		}
 
-		mid, _, err := promptSelect.Run()
+		i, _, err := promptSelect.Run()
 		if err != nil {
+			fmt.Println("No changes made")
 			os.Exit(0)
 		}
 
 		currentProject := getCurrentProject()
 		id := uuid.New()
-		newModel := Model{Name: name, Language: models[mid].Language, Id: id.String(), ProjectId: currentProject.Id, Status: "Ready"}
+		newModel := Model{Name: name, Language: baseModels[i].Language, Id: id.String(), ProjectId: currentProject.Id, Status: "Ready", BaseModel: baseModels[i].Id}
 		addModel(currentProject.Id, newModel)
-
-		faint := color.New(color.Faint).SprintFunc()
-		fmt.Printf("%s %s\n", faint("Model ID:"), id.String())
-		fmt.Printf("%s %s\n", faint("Model language:"), models[mid].Language)
-		fmt.Println()
-		fmt.Println("Adapted model created")
+		printModelInfo(newModel)
+		fmt.Printf("%s Adapted model created\n", color.GreenString("Success!"))
 	},
 }
 

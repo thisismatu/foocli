@@ -11,9 +11,8 @@ import (
 )
 
 var modelInfoCmd = &cobra.Command{
-	Use:   "info",
+	Use:   "info [model]",
 	Short: "Display information about a model",
-	Long:  "Displays information and deployment history related to a model",
 	Args:  cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
@@ -29,33 +28,21 @@ var modelInfoCmd = &cobra.Command{
 		}
 
 		loading(fmt.Sprintf("Fetching information for %s", modelId), 1)
+		printModelInfo(model)
 
-		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
-		sc := color.New(statusColor(model.Status)).SprintFunc()
-		faint := color.New(color.Faint).SprintFunc()
-
-		fmt.Println("General")
-		fmt.Println()
-		fmt.Fprintf(writer, "  %s\t%s\n", faint("Name"), model.Name)
-		fmt.Fprintf(writer, "  %s\t%s\n", faint("ID"), model.Id)
-		fmt.Fprintf(writer, "  %s\t%s\n", faint("Language"), model.Language)
-		fmt.Fprintf(writer, "  %s\t%s %s\n", faint("Status"), sc("●"), model.Status)
-		fmt.Fprintf(writer, "  %s\t%s\n", faint("Description"), "Model description goes here. It should briefly describe the model characteristics.")
-		writer.Flush()
-		fmt.Println()
-
-		fmt.Println("Deployments")
-		fmt.Println()
-		writer.SetStyle(ansiterm.Style(2))
-		fmt.Fprintf(writer, "  %s\t%s\t%s\t%s\n", "Date", "Deployment", "Status", "Duration")
-		writer.Reset()
-		for _, d := range deployments {
-			date := d.Date.Format(time.Stamp)
-			sc := color.New(statusColor(d.Status)).SprintFunc()
-			fmt.Fprintf(writer, "  %-*.*s\t%s\t%s %s\t%s\n", 8, 32, date, d.Url, sc("●"), d.Status, d.Duration)
+		if model.ProjectId != "all" {
+			writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
+			writer.SetStyle(ansiterm.Style(2))
+			fmt.Fprintf(writer, "  %s\t%s\t%s\t%s\n", "Date", "Deployment", "Status", "Duration")
+			writer.Reset()
+			for _, d := range deployments {
+				date := d.Date.Format(time.Stamp)
+				sc := color.New(statusColor(d.Status)).SprintFunc()
+				fmt.Fprintf(writer, "  %-*.*s\t%s\t%s %s\t%s\n", 8, 32, date, d.Url, sc("●"), d.Status, d.Duration)
+			}
+			writer.Flush()
+			fmt.Println()
 		}
-		writer.Flush()
-		fmt.Println()
 	},
 }
 

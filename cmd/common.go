@@ -30,6 +30,7 @@ type Model struct {
 	Language    string
 	Status      string
 	IsAdaptable bool
+	BaseModel   string
 }
 
 type Deployment struct {
@@ -76,7 +77,7 @@ func addProject(p Project) {
 func getCurrentProject() Project {
 	data, err := os.ReadFile(cfgFile)
 	if err != nil || len(data) == 0 {
-		fmt.Println("You are not logged in")
+		fmt.Printf("%s you are not logged in\n", color.YellowString("Warning:"))
 		fmt.Printf("To log in run %s\n", color.CyanString("`foo login`"))
 		os.Exit(0)
 	}
@@ -169,7 +170,7 @@ func addModel(pid string, m Model) {
 
 func removeModel(pid string, mid string) {
 	models := getModels(pid, true)
-	for i := range models {
+	for i := len(models) - 1; i >= 0; i-- {
 		if models[i].Id == mid {
 			models = append(models[:i], models[i+1:]...)
 		}
@@ -183,6 +184,26 @@ func removeModel(pid string, mid string) {
 	if err != nil {
 		logError(err)
 	}
+}
+
+func printModelInfo(m Model) {
+	writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
+	sc := color.New(statusColor(m.Status)).SprintFunc()
+	faint := color.New(color.Faint).SprintFunc()
+
+	fmt.Println()
+	fmt.Fprintf(writer, "  %s\t%s\n", faint("Name"), m.Name)
+	fmt.Fprintf(writer, "  %s\t%s\n", faint("ID"), m.Id)
+	fmt.Fprintf(writer, "  %s\t%s\n", faint("Language"), m.Language)
+	if m.ProjectId == "all" {
+		fmt.Fprintf(writer, "  %s\t%s\n", faint("Description"), "Model description goes here. It should briefly describe the model characteristics.")
+	} else {
+		fmt.Fprintf(writer, "  %s\t%s\n", faint("Base model"), m.BaseModel)
+	}
+	fmt.Fprintf(writer, "  %s\t%s\n", faint("Deployed"), time.Now().Local().String())
+	fmt.Fprintf(writer, "  %s\t%s %s\n", faint("Status"), sc("●"), m.Status)
+	writer.Flush()
+	fmt.Println()
 }
 
 func getDeployments(mid string) []Deployment {

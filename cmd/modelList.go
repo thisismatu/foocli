@@ -19,8 +19,8 @@ var modelListCmd = &cobra.Command{
 		currentProject := getCurrentProject()
 		models := getModels(currentProject.Id, true)
 
-		fmt.Printf("Models in %s\n", color.CyanString(currentProject.Name))
-		fmt.Printf("To see information about a model, run %s\n\n", color.CyanString("`foo model info <model_id>`"))
+		fmt.Printf("Models in project %s\n", color.CyanString(currentProject.Name))
+		fmt.Println()
 
 		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
 		writer.SetStyle(ansiterm.Style(2))
