@@ -55,7 +55,7 @@ var projectAddCmd = &cobra.Command{
 		fmt.Fprintf(writer, "  %s\t%s\n", faint("ID"), id.String())
 		writer.Flush()
 		fmt.Println()
-		fmt.Printf("%s Project created and set as the current project\n", color.GreenString("Success!"))
+		logSuccess("Project created and set as the current project")
 	},
 }
 

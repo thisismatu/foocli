@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fatih/color"
 	"github.com/google/uuid"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
@@ -69,7 +68,7 @@ var modelAddCmd = &cobra.Command{
 		newModel := Model{Name: name, Language: baseModels[i].Language, Id: id.String(), ProjectId: currentProject.Id, Status: "Ready", BaseModel: baseModels[i].Id}
 		addModel(currentProject.Id, newModel)
 		printModelInfo(newModel)
-		fmt.Printf("%s Adapted model created\n", color.GreenString("Success!"))
+		logSuccess("Adapted model created")
 	},
 }
 

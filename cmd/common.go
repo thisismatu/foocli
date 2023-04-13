@@ -47,6 +47,14 @@ func logError(err error) {
 	os.Exit(0)
 }
 
+func logWarning(msg string) {
+	fmt.Printf("%s %s\n", color.YellowString("Warning:"), msg)
+}
+
+func logSuccess(msg string) {
+	fmt.Printf("%s %s\n", color.GreenString("Success!"), msg)
+}
+
 func getProjects() []Project {
 	buf, err := os.ReadFile(dbProjects)
 	if err != nil {
@@ -77,7 +85,7 @@ func addProject(p Project) {
 func getCurrentProject() Project {
 	data, err := os.ReadFile(cfgFile)
 	if err != nil || len(data) == 0 {
-		fmt.Printf("%s you are not logged in\n", color.YellowString("Warning:"))
+		logWarning("you are not logged in")
 		fmt.Printf("To log in run %s\n", color.CyanString("`foo login`"))
 		os.Exit(0)
 	}

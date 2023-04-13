@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
@@ -45,7 +44,7 @@ var projectSwitchCmd = &cobra.Command{
 
 		if projects[i].Id != "" && projects[i].Id != currentProject.Id {
 			setCurrentProject(projects[i].Id)
-			fmt.Printf("%s Switched to project %s (%s)\n", color.GreenString("Success!"), projects[i].Name, projects[i].Id)
+			logSuccess(fmt.Sprintf("Switched to project %s (%s)", projects[i].Name, projects[i].Id))
 		} else {
 			fmt.Println("No changes made")
 		}

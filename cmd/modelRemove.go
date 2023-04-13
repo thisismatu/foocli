@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
@@ -55,7 +54,7 @@ var modelRemoveCmd = &cobra.Command{
 		}
 
 		removeModel(currentProject.Id, models[mid].Id)
-		fmt.Printf("%s Model %s (%s) was deleted\n", color.GreenString("Success!"), models[mid].Name, models[mid].Id)
+		logSuccess(fmt.Sprintf("Model %s (%s) was deleted", models[mid].Name, models[mid].Id))
 	},
 }
 

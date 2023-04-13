@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/fatih/color"
 	"github.com/google/uuid"
 	"github.com/manifoldco/promptui"
 	"github.com/pkg/browser"
@@ -52,7 +51,7 @@ var loginCmd = &cobra.Command{
 			fmt.Println()
 			msg := fmt.Sprintf("Waiting for %s authentication to be completed", providers[i].Name)
 			loading(msg, 5)
-			fmt.Printf("%s You are now logged in\n", color.GreenString("Success!"))
+			logSuccess("You are now logged in")
 		} else {
 			fmt.Println("No changes made")
 		}
