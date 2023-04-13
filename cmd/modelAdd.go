@@ -14,7 +14,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var modelsAddCmd = &cobra.Command{
+var modelAddCmd = &cobra.Command{
 	Use:     "add",
 	Aliases: []string{"create"},
 	Short:   "Create a new adapted model",
@@ -75,5 +75,5 @@ var modelsAddCmd = &cobra.Command{
 }
 
 func init() {
-	modelsCmd.AddCommand(modelsAddCmd)
+	modelCmd.AddCommand(modelAddCmd)
 }

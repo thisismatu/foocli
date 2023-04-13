@@ -1,11 +1,13 @@
 package cmd
 
 import (
+	"os"
+
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
 
-var projectsSwitchCmd = &cobra.Command{
+var projectSwitchCmd = &cobra.Command{
 	Use:     "switch",
 	Aliases: []string{"use"},
 	Short:   "Switch to a different project",
@@ -36,7 +38,7 @@ var projectsSwitchCmd = &cobra.Command{
 
 		i, _, err := prompt.Run()
 		if err != nil {
-			return
+			os.Exit(0)
 		}
 
 		if projects[i].Id != "" {
@@ -46,5 +48,5 @@ var projectsSwitchCmd = &cobra.Command{
 }
 
 func init() {
-	projectsCmd.AddCommand(projectsSwitchCmd)
+	projectCmd.AddCommand(projectSwitchCmd)
 }

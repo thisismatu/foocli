@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var modelsInfoCmd = &cobra.Command{
+var modelInfoCmd = &cobra.Command{
 	Use:   "info",
 	Short: "Display information about a model",
 	Long:  "Displays information and deployment history related to a model",
@@ -60,5 +60,5 @@ var modelsInfoCmd = &cobra.Command{
 }
 
 func init() {
-	modelsCmd.AddCommand(modelsInfoCmd)
+	modelCmd.AddCommand(modelInfoCmd)
 }

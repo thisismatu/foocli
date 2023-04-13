@@ -4,18 +4,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var modelsCmd = &cobra.Command{
-	Use:     "models",
-	Aliases: []string{"model"},
+var modelCmd = &cobra.Command{
+	Use:     "model",
+	Aliases: []string{"models"},
 	Short:   "View and manage models",
 	Long:    "List, view and manage models",
 	Args:    cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
-			modelsListCmd.Run(cmd, []string{})
+			modelListCmd.Run(cmd, []string{})
 		}
 		if len(args) > 0 {
-			modelsInfoCmd.Run(cmd, args)
+			modelInfoCmd.Run(cmd, args)
 		}
 	},
 }

@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var projectsAddCmd = &cobra.Command{
+var projectAddCmd = &cobra.Command{
 	Use:     "add",
 	Aliases: []string{"create"},
 	Short:   "Create a new project",
@@ -53,5 +53,5 @@ var projectsAddCmd = &cobra.Command{
 }
 
 func init() {
-	projectsCmd.AddCommand(projectsAddCmd)
+	projectCmd.AddCommand(projectAddCmd)
 }

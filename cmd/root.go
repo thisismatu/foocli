@@ -40,8 +40,8 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.AddCommand(projectsCmd)
-	rootCmd.AddCommand(modelsCmd)
+	rootCmd.AddCommand(projectCmd)
+	rootCmd.AddCommand(modelCmd)
 	rootCmd.AddCommand(loginCmd)
 	rootCmd.AddCommand(transcribeCmd)
 }

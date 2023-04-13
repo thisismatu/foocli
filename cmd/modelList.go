@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var modelsListCmd = &cobra.Command{
+var modelListCmd = &cobra.Command{
 	Use:     "ls",
 	Aliases: []string{"list"},
 	Short:   "List available models",
@@ -36,5 +36,5 @@ var modelsListCmd = &cobra.Command{
 }
 
 func init() {
-	modelsCmd.AddCommand(modelsListCmd)
+	modelCmd.AddCommand(modelListCmd)
 }

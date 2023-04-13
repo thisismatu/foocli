@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var projectsInviteCmd = &cobra.Command{
+var projectInviteCmd = &cobra.Command{
 	Use:   "invite",
 	Short: "Invite a user to this project",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -22,5 +22,5 @@ var projectsInviteCmd = &cobra.Command{
 }
 
 func init() {
-	projectsCmd.AddCommand(projectsInviteCmd)
+	projectCmd.AddCommand(projectInviteCmd)
 }

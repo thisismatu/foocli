@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var modelsRemoveCmd = &cobra.Command{
+var modelRemoveCmd = &cobra.Command{
 	Use:     "rm",
 	Aliases: []string{"remove"},
 	Short:   "Delete adapted model",
@@ -57,5 +57,5 @@ var modelsRemoveCmd = &cobra.Command{
 }
 
 func init() {
-	modelsCmd.AddCommand(modelsRemoveCmd)
+	modelCmd.AddCommand(modelRemoveCmd)
 }
