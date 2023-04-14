@@ -9,7 +9,7 @@ import (
 var projectCmd = &cobra.Command{
 	Use:     "project",
 	Aliases: []string{"projects"},
-	Short:   "View and manage projects",
+	Short:   "View, switch and manage projects",
 	Args:    cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {

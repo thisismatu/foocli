@@ -6,7 +6,7 @@ import (
 
 var evaluateCmd = &cobra.Command{
 	Use:   "evaluate",
-	Short: "Evaluate model accuracy",
+	Short: "Evaluate model ASR/NLU accuracy",
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()
 	},
