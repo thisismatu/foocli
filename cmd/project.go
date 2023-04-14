@@ -19,4 +19,9 @@ var projectCmd = &cobra.Command{
 	},
 }
 
-func init() {}
+func init() {
+	projectCmd.AddCommand(projectListCmd)
+	projectCmd.AddCommand(projectInviteCmd)
+	projectCmd.AddCommand(projectSwitchCmd)
+	projectCmd.AddCommand(projectAddCmd)
+}

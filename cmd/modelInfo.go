@@ -46,6 +46,4 @@ var modelInfoCmd = &cobra.Command{
 	},
 }
 
-func init() {
-	modelCmd.AddCommand(modelInfoCmd)
-}
+func init() {}

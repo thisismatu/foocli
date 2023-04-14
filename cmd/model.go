@@ -20,4 +20,10 @@ var modelCmd = &cobra.Command{
 }
 
 func init() {
+	modelCmd.AddCommand(modelListCmd)
+	modelCmd.AddCommand(modelInfoCmd)
+	modelCmd.AddCommand(modelAddCmd)
+	modelCmd.AddCommand(modelRemoveCmd)
+	modelCmd.AddCommand(modelDeployCmd)
+	modelCmd.AddCommand(modelDownloadCmd)
 }

@@ -83,6 +83,4 @@ func handleAddModel(name string, bmLang string, bmId string) {
 	logSuccess("Adapted model created")
 }
 
-func init() {
-	modelCmd.AddCommand(modelAddCmd)
-}
+func init() {}

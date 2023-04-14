@@ -71,6 +71,4 @@ func handleRemoveModel(m Model) {
 	logSuccess(fmt.Sprintf("Model %s (%s) was deleted", m.Name, m.Id))
 }
 
-func init() {
-	modelCmd.AddCommand(modelRemoveCmd)
-}
+func init() {}

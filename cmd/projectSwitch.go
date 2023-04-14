@@ -51,6 +51,4 @@ var projectSwitchCmd = &cobra.Command{
 	},
 }
 
-func init() {
-	projectCmd.AddCommand(projectSwitchCmd)
-}
+func init() {}

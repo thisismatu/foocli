@@ -59,6 +59,4 @@ var projectAddCmd = &cobra.Command{
 	},
 }
 
-func init() {
-	projectCmd.AddCommand(projectAddCmd)
-}
+func init() {}

@@ -37,6 +37,4 @@ var modelListCmd = &cobra.Command{
 	},
 }
 
-func init() {
-	modelCmd.AddCommand(modelListCmd)
-}
+func init() {}
