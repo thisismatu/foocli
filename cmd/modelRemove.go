@@ -13,49 +13,62 @@ var modelRemoveCmd = &cobra.Command{
 	Aliases: []string{"remove"},
 	Short:   "Delete adapted model",
 	Run: func(cmd *cobra.Command, args []string) {
-		currentProject := getCurrentProject()
+		if len(args) == 1 {
+			model, err := getModel(args[0])
+			if err != nil {
+				logError(err)
+			}
 
-		selectTemplates := &promptui.SelectTemplates{
-			Active:   "▸ {{ .Name | underline }} {{ .Id | faint }}",
-			Inactive: "  {{ .Name }} {{ .Id | faint }}",
+			handleRemoveModel(model)
+		} else {
+			currentProject := getCurrentProject()
+
+			selectTemplates := &promptui.SelectTemplates{
+				Active:   "▸ {{ .Name | underline }} {{ .Id | faint }}",
+				Inactive: "  {{ .Name }} {{ .Id | faint }}",
+			}
+
+			adaptedModels := getAdaptedModels(currentProject.Id)
+			if len(adaptedModels) == 0 {
+				fmt.Println("No models to delete")
+				os.Exit(0)
+			}
+
+			promptSelect := &promptui.Select{
+				Label:        "Select model to delete",
+				Items:        adaptedModels,
+				Templates:    selectTemplates,
+				Stdout:       noBellStdout,
+				HideSelected: true,
+			}
+
+			i, _, err := promptSelect.Run()
+			if err != nil {
+				fmt.Println("No changes made")
+				os.Exit(0)
+			}
+
+			promptConfirm := promptui.Prompt{
+				Label:       fmt.Sprintf("Delete model %s (%s)", adaptedModels[i].Name, adaptedModels[i].Id),
+				IsConfirm:   true,
+				HideEntered: true,
+			}
+
+			_, err = promptConfirm.Run()
+
+			if err != nil {
+				fmt.Println("No changes made")
+				os.Exit(0)
+			}
+
+			handleRemoveModel(adaptedModels[i])
 		}
-
-		models := getModels(currentProject.Id, false)
-		if len(models) == 0 {
-			fmt.Println("No models to delete")
-			os.Exit(0)
-		}
-
-		promptSelect := &promptui.Select{
-			Label:        "Select model to delete",
-			Items:        models,
-			Templates:    selectTemplates,
-			Stdout:       noBellStdout,
-			HideSelected: true,
-		}
-
-		mid, _, err := promptSelect.Run()
-		if err != nil {
-			fmt.Println("No changes made")
-			os.Exit(0)
-		}
-
-		promptConfirm := promptui.Prompt{
-			Label:       fmt.Sprintf("Delete model %s (%s)", models[mid].Name, models[mid].Id),
-			IsConfirm:   true,
-			HideEntered: true,
-		}
-
-		_, err = promptConfirm.Run()
-
-		if err != nil {
-			fmt.Println("No changes made")
-			os.Exit(0)
-		}
-
-		removeModel(currentProject.Id, models[mid].Id)
-		logSuccess(fmt.Sprintf("Model %s (%s) was deleted", models[mid].Name, models[mid].Id))
 	},
+}
+
+func handleRemoveModel(m Model) {
+	removeModel(m)
+	logSuccess(fmt.Sprintf("Model %s (%s) was deleted", m.Name, m.Id))
 }
 
 func init() {

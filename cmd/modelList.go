@@ -17,7 +17,9 @@ var modelListCmd = &cobra.Command{
 		loading("Fetching models", 1)
 
 		currentProject := getCurrentProject()
-		models := getModels(currentProject.Id, true)
+		baseModels := getBaseModels()
+		adaptedModels := getAdaptedModels(currentProject.Id)
+		models := append(baseModels, adaptedModels...)
 
 		fmt.Printf("Models in project %s\n", color.CyanString(currentProject.Name))
 		fmt.Println()

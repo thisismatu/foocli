@@ -68,20 +68,6 @@ func getProjects() []Project {
 	return projects
 }
 
-func addProject(p Project) {
-	projects := getProjects()
-	projects = append(projects, p)
-	var buf bytes.Buffer
-	err := jsonlines.Encode(&buf, &projects)
-	if err != nil {
-		logError(err)
-	}
-	err = os.WriteFile(dbProjects, buf.Bytes(), 0644)
-	if err != nil {
-		logError(err)
-	}
-}
-
 func getCurrentProject() Project {
 	data, err := os.ReadFile(cfgFile)
 	if err != nil || len(data) == 0 {
@@ -102,26 +88,21 @@ func setCurrentProject(id string) {
 	}
 }
 
-func getModel(mid string) (Model, error) {
-	buf, err := os.ReadFile(dbModels)
+func addProject(p Project) {
+	projects := getProjects()
+	projects = append(projects, p)
+	var buf bytes.Buffer
+	err := jsonlines.Encode(&buf, &projects)
 	if err != nil {
 		logError(err)
 	}
-	models := []Model{}
-	err = jsonlines.Decode(strings.NewReader(string(buf)), &models)
+	err = os.WriteFile(dbProjects, buf.Bytes(), 0644)
 	if err != nil {
 		logError(err)
 	}
-	for i := range models {
-		if models[i].Id == mid {
-			return models[i], nil
-		}
-	}
-	errMsg := fmt.Sprintf("model '%s' does not exist", mid)
-	return Model{}, errors.New(errMsg)
 }
 
-func getModels(pid string, includeBaseModels bool) []Model {
+func getAdaptedModels(pId string) []Model {
 	buf, err := os.ReadFile(dbModels)
 	if err != nil {
 		logError(err)
@@ -133,10 +114,7 @@ func getModels(pid string, includeBaseModels bool) []Model {
 	}
 	filteredModels := []Model{}
 	for i := range models {
-		if models[i].ProjectId == pid {
-			filteredModels = append(filteredModels, models[i])
-		}
-		if includeBaseModels && models[i].ProjectId == "all" {
+		if models[i].ProjectId == pId {
 			filteredModels = append(filteredModels, models[i])
 		}
 	}
@@ -155,15 +133,41 @@ func getBaseModels() []Model {
 	}
 	filteredModels := []Model{}
 	for i := range models {
-		if models[i].ProjectId == "all" && models[i].IsAdaptable {
+		if models[i].ProjectId == "all" {
 			filteredModels = append(filteredModels, models[i])
 		}
 	}
 	return filteredModels
 }
 
-func addModel(pid string, m Model) {
-	models := getModels(pid, true)
+func getAllModels(pId string) []Model {
+	baseModels := getBaseModels()
+	adaptedModels := getAdaptedModels(pId)
+	models := append(baseModels, adaptedModels...)
+	return models
+}
+
+func getModel(mId string) (Model, error) {
+	buf, err := os.ReadFile(dbModels)
+	if err != nil {
+		logError(err)
+	}
+	models := []Model{}
+	err = jsonlines.Decode(strings.NewReader(string(buf)), &models)
+	if err != nil {
+		logError(err)
+	}
+	for i := range models {
+		if models[i].Id == mId {
+			return models[i], nil
+		}
+	}
+	errMsg := fmt.Sprintf("model '%s' does not exist", mId)
+	return Model{}, errors.New(errMsg)
+}
+
+func addModel(m Model) {
+	models := getAllModels(m.ProjectId)
 	models = append(models, m)
 	var buf bytes.Buffer
 	err := jsonlines.Encode(&buf, &models)
@@ -176,10 +180,10 @@ func addModel(pid string, m Model) {
 	}
 }
 
-func removeModel(pid string, mid string) {
-	models := getModels(pid, true)
+func removeModel(m Model) {
+	models := getAllModels(m.ProjectId)
 	for i := len(models) - 1; i >= 0; i-- {
-		if models[i].Id == mid {
+		if models[i].Id == m.Id {
 			models = append(models[:i], models[i+1:]...)
 		}
 	}
@@ -214,11 +218,11 @@ func printModelInfo(m Model) {
 	fmt.Println()
 }
 
-func getDeployments(mid string) []Deployment {
+func getDeployments(mId string) []Deployment {
 	deployments := []Deployment{}
 	for x := 0; x < 10; x++ {
 		hash := uuid.New().String()[0:8]
-		url := fmt.Sprintf("https://dashboard.foo.com/model/%s/%s", mid, hash)
+		url := fmt.Sprintf("https://dashboard.foo.com/model/%s/%s", mId, hash)
 		duration := fmt.Sprintf("%ds", rand.Intn(1000))
 		deployments = append(deployments, Deployment{Date: time.Now(), Url: url, Status: "Ready", Duration: duration})
 	}

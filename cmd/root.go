@@ -16,12 +16,13 @@ var currVersion = "0.0.1"
 func showInfo() string {
 	logo := "ⴲ Foo CLI"
 	logoAndVersion := color.CyanString("\n%s %s", logo, currVersion)
+	docs := color.New(color.Faint).Sprint("\nhttps://docs.foo.com/cli")
 	nextVersion := "0.0.2"
 	if currVersion != nextVersion {
 		update := fmt.Sprintf("%s run %s to install version %s\n", color.MagentaString("Update available:"), color.CyanString("`brew uprade foo`"), nextVersion)
-		return update + logoAndVersion
+		return update + logoAndVersion + docs
 	}
-	return logoAndVersion
+	return logoAndVersion + docs
 }
 
 var rootCmd = &cobra.Command{
