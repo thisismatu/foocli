@@ -67,6 +67,14 @@ func fmtCmd(cmd string) string {
 	return backtick + command + backtick
 }
 
+func fmtExample(desc string, cmd string, isLast bool) string {
+	nl := "\n\n"
+	if isLast {
+		nl = "\n"
+	}
+	return fmt.Sprintf("  %s\n  %s %s %s", desc, faint("$"), color.CyanString(cmd), nl)
+}
+
 func getProjects() []Project {
 	buf, err := os.ReadFile(dbProjects)
 	if err != nil {

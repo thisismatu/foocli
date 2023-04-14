@@ -11,11 +11,8 @@ var modelDeployCmd = &cobra.Command{
 	Use:   "deploy [id]",
 	Short: "Perform a deployment",
 	Long:  "Uploads the contents of the directory to the cloud for validation and training.\nOnce the training is successfully completed, a new version of the adapted model is deployed.",
-	Example: `  Deploy the current directory
-  $ foo model deploy my-model-id
-
-  Deploy a custom path
-  $ foo model deploy my-model-id /path/to/dir`,
+	Example: fmtExample("Deploy the current directory", "foo model deploy my-model-id", false) +
+		fmtExample("Deploy a custom path", "foo model deploy my-model-id /path/to/dir", true),
 	Args: cobra.RangeArgs(0, 2),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {

@@ -10,11 +10,8 @@ var modelDownloadCmd = &cobra.Command{
 	Use:   "download [id]",
 	Short: "Download training data and config files",
 	Long:  "Downloads the latest adapted model training data and config files from the cloud",
-	Example: `  Download to current directory
-  $ foo download my-model-id
-
-  Download to custom path
-  $ foo download my-model-id /path/to/dir`,
+	Example: fmtExample("Download to current directory", "foo download my-model-id", false) +
+		fmtExample("Download to custom path", "foo download my-model-id /path/to/dir", true),
 	Args: cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
