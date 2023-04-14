@@ -9,7 +9,7 @@ import (
 var modelDownloadCmd = &cobra.Command{
 	Use:   "download [id]",
 	Short: "Download training data and config files",
-	Long:  "Downloads the latest adapted model training data and config files from the cloud",
+	Long:  `Downloads the latest adapted model training data and config files from the cloud`,
 	Example: fmtExample("Download to current directory", "foo download my-model-id", false) +
 		fmtExample("Download to custom path", "foo download my-model-id /path/to/dir", true),
 	Args: cobra.RangeArgs(0, 1),
