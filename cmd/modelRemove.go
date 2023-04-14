@@ -11,7 +11,7 @@ import (
 var modelRemoveCmd = &cobra.Command{
 	Use:     "rm [model]",
 	Aliases: []string{"remove"},
-	Short:   "Delete adapted model",
+	Short:   "Delete an adapted model",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 1 {
 			model, err := getModel(args[0])
