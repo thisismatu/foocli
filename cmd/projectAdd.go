@@ -8,7 +8,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/juju/ansiterm"
 
-	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
@@ -49,7 +48,6 @@ var projectAddCmd = &cobra.Command{
 		setCurrentProject(newProject.Id)
 
 		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
-		faint := color.New(color.Faint).SprintFunc()
 		fmt.Println()
 		fmt.Fprintf(writer, "  %s\t%s\n", faint("Name"), newProject.Name)
 		fmt.Fprintf(writer, "  %s\t%s\n", faint("ID"), newProject.Id)

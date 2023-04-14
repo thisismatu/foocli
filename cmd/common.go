@@ -57,8 +57,12 @@ func logSuccess(msg string) {
 	fmt.Printf("%s %s\n", color.GreenString("Success!"), msg)
 }
 
+func faint(str string) string {
+	return color.New(color.Faint).Sprint(str)
+}
+
 func fmtCmd(cmd string) string {
-	backtick := color.New(color.Faint).Sprint("`")
+	backtick := faint("`")
 	command := color.CyanString(cmd)
 	return backtick + command + backtick
 }
@@ -209,7 +213,6 @@ func removeModel(m Model) {
 func printModelInfo(m Model) {
 	writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
 	sc := color.New(statusColor(m.Status)).SprintFunc()
-	faint := color.New(color.Faint).SprintFunc()
 
 	fmt.Println()
 	fmt.Fprintf(writer, "  %s\t%s\n", faint("Name"), m.Name)
