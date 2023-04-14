@@ -11,7 +11,7 @@ import (
 )
 
 var modelAddCmd = &cobra.Command{
-	Use:     "add",
+	Use:     "add [name]",
 	Aliases: []string{"create"},
 	Short:   "Create a new adapted model",
 	Args:    cobra.RangeArgs(0, 2),

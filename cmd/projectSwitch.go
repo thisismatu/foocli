@@ -9,7 +9,7 @@ import (
 )
 
 var projectSwitchCmd = &cobra.Command{
-	Use:     "switch [project]",
+	Use:     "switch [id]",
 	Aliases: []string{"use"},
 	Short:   "Switch to a different project",
 	Args:    cobra.RangeArgs(0, 1),

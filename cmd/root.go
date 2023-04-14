@@ -19,7 +19,7 @@ func showInfo() string {
 	docs := color.New(color.Faint).Sprint("\nhttps://docs.foo.com/cli")
 	nextVersion := "0.0.2"
 	if currVersion != nextVersion {
-		update := fmt.Sprintf("%s run %s to install version %s\n", color.MagentaString("Update available:"), color.CyanString("`brew uprade foo`"), nextVersion)
+		update := fmt.Sprintf("%s run %s to install version %s\n", color.MagentaString("Update available:"), fmtCmd("brew uprade foo"), nextVersion)
 		return update + logoAndVersion + docs
 	}
 	return logoAndVersion + docs
@@ -44,4 +44,6 @@ func init() {
 	rootCmd.AddCommand(modelCmd)
 	rootCmd.AddCommand(loginCmd)
 	rootCmd.AddCommand(transcribeCmd)
+	rootCmd.AddCommand(evaluateCmd)
+	rootCmd.AddCommand(annotateCmd)
 }

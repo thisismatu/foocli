@@ -8,14 +8,14 @@ import (
 )
 
 var modelDeployCmd = &cobra.Command{
-	Use:   "deploy [model]",
+	Use:   "deploy [id]",
 	Short: "Perform a deployment",
-	Long:  "Uploads the contents of the directory to the cloud for validation and training. Once the training is successfully completed, a new version of the adapted model is deployed.",
+	Long:  "Uploads the contents of the directory to the cloud for validation and training.\nOnce the training is successfully completed, a new version of the adapted model is deployed.",
 	Example: `  Deploy the current directory
-  $ foo model deploy <model_id>
+  $ foo model deploy my-model-id
 
   Deploy a custom path
-  $ foo model deploy <model_id> /path/to/dir`,
+  $ foo model deploy my-model-id /path/to/dir`,
 	Args: cobra.RangeArgs(0, 2),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {

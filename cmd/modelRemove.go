@@ -9,7 +9,7 @@ import (
 )
 
 var modelRemoveCmd = &cobra.Command{
-	Use:     "rm [model]",
+	Use:     "rm [id]",
 	Aliases: []string{"remove"},
 	Short:   "Delete an adapted model",
 	Run: func(cmd *cobra.Command, args []string) {

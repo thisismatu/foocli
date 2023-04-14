@@ -57,6 +57,12 @@ func logSuccess(msg string) {
 	fmt.Printf("%s %s\n", color.GreenString("Success!"), msg)
 }
 
+func fmtCmd(cmd string) string {
+	backtick := color.New(color.Faint).Sprint("`")
+	command := color.CyanString(cmd)
+	return backtick + command + backtick
+}
+
 func getProjects() []Project {
 	buf, err := os.ReadFile(dbProjects)
 	if err != nil {
@@ -74,7 +80,7 @@ func getCurrentProject() Project {
 	data, err := os.ReadFile(cfgFile)
 	if err != nil || len(data) == 0 {
 		logWarning("you are not logged in")
-		fmt.Printf("To log in run %s\n", color.CyanString("`foo login`"))
+		fmt.Printf("To log in run %s\n", fmtCmd("foo login"))
 		os.Exit(0)
 	}
 	currProjectId := string(data)

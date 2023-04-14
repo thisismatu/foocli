@@ -11,7 +11,7 @@ import (
 )
 
 var modelInfoCmd = &cobra.Command{
-	Use:   "info [model]",
+	Use:   "info [id]",
 	Short: "Display information about a model",
 	Args:  cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
