@@ -44,7 +44,7 @@ var modelRemoveCmd = &cobra.Command{
 
 			i, _, err := promptSelect.Run()
 			if err != nil {
-				fmt.Println("No changes made")
+				fmt.Println("Cancelled")
 				os.Exit(0)
 			}
 
@@ -55,9 +55,8 @@ var modelRemoveCmd = &cobra.Command{
 			}
 
 			_, err = promptConfirm.Run()
-
 			if err != nil {
-				fmt.Println("No changes made")
+				fmt.Println("Cancelled")
 				os.Exit(0)
 			}
 

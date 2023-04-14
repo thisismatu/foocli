@@ -19,8 +19,10 @@ import (
 )
 
 type Project struct {
-	Name string
-	Id   string
+	Name        string
+	Id          string
+	PaymentPlan string
+	UserCount   int
 }
 
 type Model struct {

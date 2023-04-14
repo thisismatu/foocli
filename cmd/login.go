@@ -39,22 +39,18 @@ var loginCmd = &cobra.Command{
 
 		i, _, err := prompt.Run()
 		if err != nil {
-			fmt.Println("No changes made")
+			fmt.Println("Cancelled")
 			os.Exit(0)
 		}
 
-		if providers[i].Url != "" {
-			fmt.Printf("Logging in using %s\n", providers[i].Name)
-			browser.OpenURL(providers[i].Url)
-			fmt.Println()
-			fmt.Printf("Visit the following URL if your browser doesn't automatically open: %s/auth/%s\n", providers[i].Url, uuid.New())
-			fmt.Println()
-			msg := fmt.Sprintf("Waiting for %s authentication to be completed", providers[i].Name)
-			loading(msg, 5)
-			logSuccess("You are now logged in")
-		} else {
-			fmt.Println("No changes made")
-		}
+		fmt.Printf("Logging in using %s\n", providers[i].Name)
+		browser.OpenURL(providers[i].Url)
+		fmt.Println()
+		fmt.Printf("Visit the following URL if your browser doesn't automatically open: %s/auth/%s\n", providers[i].Url, uuid.New())
+		fmt.Println()
+		msg := fmt.Sprintf("Waiting for %s authentication to be completed", providers[i].Name)
+		loading(msg, 5)
+		logSuccess("You are now logged in")
 	},
 }
 

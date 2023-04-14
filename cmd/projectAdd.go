@@ -37,22 +37,22 @@ var projectAddCmd = &cobra.Command{
 			HideEntered: true,
 		}
 
-		name, err := prompt.Run()
+		result, err := prompt.Run()
 		if err != nil {
-			fmt.Println("No changes made")
+			fmt.Println("Cancelled")
 			os.Exit(0)
 		}
 
 		id := uuid.New()
-		newProject := Project{Name: name, Id: id.String()}
+		newProject := Project{Name: result, Id: id.String(), PaymentPlan: "Starter", UserCount: 1}
 		addProject(newProject)
 		setCurrentProject(newProject.Id)
 
 		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
 		faint := color.New(color.Faint).SprintFunc()
 		fmt.Println()
-		fmt.Fprintf(writer, "  %s\t%s\n", faint("Name"), name)
-		fmt.Fprintf(writer, "  %s\t%s\n", faint("ID"), id.String())
+		fmt.Fprintf(writer, "  %s\t%s\n", faint("Name"), newProject.Name)
+		fmt.Fprintf(writer, "  %s\t%s\n", faint("ID"), newProject.Id)
 		writer.Flush()
 		fmt.Println()
 		logSuccess("Project created and set as the current project")
