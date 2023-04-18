@@ -46,4 +46,5 @@ func init() {
 	rootCmd.AddCommand(transcribeCmd)
 	rootCmd.AddCommand(evaluateCmd)
 	rootCmd.AddCommand(annotateCmd)
+	rootCmd.AddCommand(statsCmd)
 }
