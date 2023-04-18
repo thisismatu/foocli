@@ -15,7 +15,8 @@ var statsCmd = &cobra.Command{
 	Long:  `Get API usage statistics for the current project or a specific model`,
 	Example: fmtExample("Project API usage", "foo stats", false) +
 		fmtExample("Project API usage for a custom time range", "foo stats --start 2023-01-01 --end --2023-03-31", false) +
-		fmtExample("Model API usage", "foo stats my-model-id", true),
+		fmtExample("Model API usage", "foo stats my-model-id", false) +
+		fmtExample("Write report to a CSV file", "foo stats my-model-id > report.csv", true),
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if len(args) == 1 {
@@ -23,7 +24,7 @@ var statsCmd = &cobra.Command{
 			if err != nil {
 				logError(err)
 			}
-			loading("Loading model usage statistics", 2)
+			loading("Fetching usage statistics", 2)
 			fmt.Printf("API usage for model %s\n", color.CyanString(model.Name))
 
 			writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
@@ -59,7 +60,7 @@ var statsCmd = &cobra.Command{
 			fmt.Println()
 		} else {
 			proj := getCurrentProject()
-			loading("Loading project usage statistics", 2)
+			loading("Fetching usage statistics", 2)
 			fmt.Printf("API usage for project %s\n", color.CyanString(proj.Name))
 
 			writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
@@ -89,5 +90,5 @@ var statsCmd = &cobra.Command{
 func init() {
 	statsCmd.Flags().String("start", "", "Start date for statistics")
 	statsCmd.Flags().String("end", "", "Start date for statistics")
-	statsCmd.Flags().String("csv", "", "Print report as CSV")
+	statsCmd.Flags().BoolP("export", "e", false, "Print as CSV")
 }

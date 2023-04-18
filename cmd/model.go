@@ -9,7 +9,7 @@ import (
 var modelCmd = &cobra.Command{
 	Use:     "model",
 	Aliases: []string{"models"},
-	Short:   "View, deploy and manage models",
+	Short:   "View and manage models",
 	Args:    cobra.RangeArgs(0, 1),
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
