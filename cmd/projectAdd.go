@@ -50,7 +50,7 @@ var projectAddCmd = &cobra.Command{
 		writer := ansiterm.NewTabWriter(os.Stdout, 0, 8, 2, '\t', 0)
 		fmt.Println()
 		fmt.Fprintf(writer, "  %s\t%s\n", faint("Name"), newProject.Name)
-		fmt.Fprintf(writer, "  %s\t%s\n", faint("ID"), newProject.Id)
+		fmt.Fprintf(writer, "  %s\t%s\n", faint("Project ID"), newProject.Id)
 		writer.Flush()
 		fmt.Println()
 		logSuccess("Project created and set as the current project")

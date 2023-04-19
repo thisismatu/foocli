@@ -224,7 +224,7 @@ func printModelInfo(m Model) {
 
 	fmt.Println()
 	fmt.Fprintf(writer, "  %s\t%s\n", faint("Name"), m.Name)
-	fmt.Fprintf(writer, "  %s\t%s\n", faint("ID"), m.Id)
+	fmt.Fprintf(writer, "  %s\t%s\n", faint("Model ID"), m.Id)
 	fmt.Fprintf(writer, "  %s\t%s\n", faint("Language"), m.Language)
 	if m.ProjectId == "all" {
 		fmt.Fprintf(writer, "  %s\t%s\n", faint("Description"), "Model description goes here. It should briefly describe the model characteristics.")
