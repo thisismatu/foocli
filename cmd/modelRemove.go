@@ -67,7 +67,7 @@ var modelRemoveCmd = &cobra.Command{
 
 func handleRemoveModel(m Model) {
 	removeModel(m)
-	logSuccess(fmt.Sprintf("Model %s (%s) was deleted", m.Name, m.Id))
+	logSuccess(fmt.Sprintf("Deleted model %s (%s)", m.Name, m.Id))
 }
 
 func init() {}
